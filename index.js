@@ -64,7 +64,7 @@ class Hyperdrive extends Nanoresource {
     }
 
     // Set in ready.
-    this.metadata = null
+    this.metadata = opts.metadata || null
     this.content = opts.content || null
     this.db = opts._db
     this.tags = new TagManager(this)
@@ -119,7 +119,7 @@ class Hyperdrive extends Nanoresource {
     const self = this
     return this.corestore.ready(err => {
       if (err) return cb(err)
-      this.metadata = this.corestore.default(this._metadataOpts)
+      this.metadata = this.metadata || this.corestore.default(this._metadataOpts)
       this.metadata.ifAvailable.wait()
       this.db = this.db || new MountableHypertrie(this.corestore, this.key, {
         feed: this.metadata,
